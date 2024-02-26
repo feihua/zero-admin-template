@@ -1,0 +1,103 @@
+syntax = "v1"
+
+info (
+	title:   "菜单信息"
+	desc:    "简单实现rbac权限管理系统"
+	author:  "liufeihua"
+	email:   "1002219331@qq.com"
+	version: "v1.0"
+)
+
+type AddMenuReq {
+	MenuName string `json:"menuName"` // 菜单名称
+	MenuType int64  `json:"menuType"` // 菜单类型(1：目录   2：菜单   3：按钮)
+	StatusId int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort     int64  `json:"sort"` // 排序
+	ParentId int64  `json:"parentId"` // 父ID
+	MenuUrl  string `json:"menuUrl"` // 路由路径
+	ApiUrl   string `json:"apiUrl"` // 接口URL
+	MenuIcon string `json:"menuIcon"` // 菜单图标
+	Remark   string `json:"remark"` // 备注
+}
+
+type AddMenuResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type DeleteMenuReq {
+	Id int64 `json:"id"`
+}
+
+type DeleteMenuResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type UpdateMenuReq {
+	Id       int64  `json:"id"` // 主键
+	MenuName string `json:"menuName"` // 菜单名称
+	MenuType int64  `json:"menuType"` // 菜单类型(1：目录   2：菜单   3：按钮)
+	StatusId int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort     int64  `json:"sort"` // 排序
+	ParentId int64  `json:"parentId"` // 父ID
+	MenuUrl  string `json:"menuUrl"` // 路由路径
+	ApiUrl   string `json:"apiUrl"` // 接口URL
+	MenuIcon string `json:"menuIcon"` // 菜单图标
+	Remark   string `json:"remark"` // 备注
+}
+
+type UpdateMenuResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type QueryMenuListReq {
+	MenuName string `json:"menuName,optional"`
+}
+
+type QueryMenuListResp {
+	Code int64          `json:"code"`
+	Msg  string         `json:"msg"`
+	Data []QueryMenuListData `json:"data"`
+}
+
+type QueryMenuListData {
+	Id         int64  `json:"id"` // 主键
+	MenuName   string `json:"menuName"` // 菜单名称
+	MenuType   int64  `json:"menuType"` // 菜单类型(1：目录   2：菜单   3：按钮)
+	StatusId   int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort       int64  `json:"sort"` // 排序
+	ParentId   int64  `json:"parentId"` // 父ID
+	MenuUrl    string `json:"menuUrl"` // 路由路径
+	ApiUrl     string `json:"apiUrl"` // 接口URL
+	MenuIcon   string `json:"menuIcon"` // 菜单图标
+	Remark     string `json:"remark"` // 备注
+	CreateTime string `json:"createTime"` // 创建时间
+	UpdateTime string `json:"updateTime"` // 修改时间
+}
+
+@server (
+	jwt:        Auth
+	middleware: CheckUrl
+	group:      system/menu
+	prefix:     /api/system/menu
+)
+service admin {
+	// 添加菜单
+	@handler addMenu
+	post /addMenu (AddMenuReq) returns (AddMenuResp)
+
+	// 删除菜单
+	@handler deleteMenu
+	post /deleteMenu (DeleteMenuReq) returns (DeleteMenuResp)
+
+	// 更新菜单
+	@handler updateMenu
+	post /updateMenu (UpdateMenuReq) returns (UpdateMenuResp)
+
+	// 查询菜单列表
+	@handler queryMenuList
+	post /queryMenuList (QueryMenuListReq) returns (QueryMenuListResp)
+}
+

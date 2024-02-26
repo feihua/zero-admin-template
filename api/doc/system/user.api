@@ -1,0 +1,194 @@
+syntax = "v1"
+
+info (
+	title:   "用户信息"
+	desc:    "简单实现rbac权限管理系统"
+	author:  "liufeihua"
+	email:   "1002219331@qq.com"
+	version: "v1.0"
+)
+
+type AddUserReq {
+	Mobile   string `json:"mobile"` // 手机
+	UserName string `json:"userName"` // 姓名
+	StatusId int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort     int64  `json:"sort"` // 排序
+	Remark   string `json:"remark"` // 备注
+}
+
+type AddUserResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type DeleteUserReq {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteUserResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type UpdateUserReq {
+	Id       int64  `json:"id"` // 主键
+	Mobile   string `json:"mobile"` // 手机
+	UserName string `json:"userName"` // 姓名
+	StatusId int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort     int64  `json:"sort"` // 排序
+	Remark   string `json:"remark"` // 备注
+}
+
+type UpdateUserResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type QueryUserListReq {
+	Current  int64  `json:"current,default=1"`
+	PageSize int64  `json:"pageSize,default=20"`
+	Mobile   string `json:"mobile,optional"` // 手机
+	UserName string `json:"userName,optional"` // 姓名
+	StatusId int64  `json:"statusId,optional"` // 状态(1:正常，0:禁用)
+}
+
+type QueryUserListResp {
+	Code int64          `json:"code"`
+	Msg  string         `json:"msg"`
+	Data []UserListData `json:"data"`
+	Success  bool       `json:"success"`
+	Total    int64      `json:"total"`
+}
+
+type UserListData {
+	Id         int64  `json:"id"` // 主键
+	Mobile     string `json:"mobile"` // 手机
+	UserName   string `json:"userName"` // 姓名
+	StatusId   int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort       int64  `json:"sort"` // 排序
+	Remark     string `json:"remark"` // 备注
+	CreateTime string `json:"createTime"` // 创建时间
+	UpdateTime string `json:"updateTime"` // 修改时间
+}
+
+type UserLoginReq {
+	Mobile   string `json:"account"`
+	Password string `json:"password"`
+}
+
+type UserLoginResp {
+	Code int64         `json:"code"`
+	Msg  string        `json:"msg"`
+	Data UserLoginData `json:"data"`
+}
+
+type UserLoginData {
+	UserId int64  `json:"userId"`
+	Mobile string `json:"mobile"`
+	Token  string `json:"token"`
+}
+
+type QueryUserMenuListResp {
+	Code int64                 `json:"code"`
+	Msg  string                `json:"msg"`
+	Data QueryUserMenuListData `json:"data"`
+}
+
+type QueryUserMenuListData {
+	SysMenu []UserMenuList `json:"sysMenu"`
+	BtnMenu []string       `json:"btnMenu"`
+	Avatar  string         `json:"avatar"`
+	Name    string         `json:"name"`
+}
+
+type UserMenuList {
+	Id       int64  `json:"id"`
+	ParentId int64  `json:"parentId"`
+	Name     string `json:"name"`
+	Path     string `json:"path"`
+	ApiUrl   string `json:"apiUrl"`
+	MenuType int64  `json:"menuType"`
+	Icon     string `json:"icon"`
+}
+
+type QueryUserRoleListReq {
+	UserId int64 `json:"userId"`
+}
+
+type QueryUserRoleListResp {
+	Code int64                 `json:"code"`
+	Msg  string                `json:"msg"`
+	Data QueryUserRoleListData `json:"data"`
+}
+
+type QueryUserRoleListData {
+	AllRoles       []UserRoleList `json:"allRoles"`
+	AllUserRoleIds []int64        `json:"allUserRoleIds"`
+}
+
+type UserRoleList {
+	Id         int64  `json:"id"` // 主键
+	RoleName   string `json:"roleName"` // 名称
+	StatusId   int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort       int64  `json:"sort"` // 排序
+	Remark     string `json:"remark"` // 备注
+	CreateTime string `json:"createTime"` // 创建时间
+	UpdateTime string `json:"updateTime"` // 修改时间
+}
+
+type UpdateUserRoleListReq {
+	UserId  int64   `json:"userId"`
+	RoleIds []int64 `json:"roleIds"`
+}
+
+type UpdateUserRoleListResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+@server (
+	jwt:        Auth
+	middleware: CheckUrl
+	group:      system/user
+	prefix:     /api/system/user
+)
+service admin {
+	//新增用户
+	@handler addUser
+	post /addUser (AddUserReq) returns (AddUserResp)
+
+	//删除用户
+	@handler deleteUser
+	post /deleteUser (DeleteUserReq) returns (DeleteUserResp)
+
+	//更新用户
+	@handler updateUser
+	post /updateUser (UpdateUserReq) returns (UpdateUserResp)
+
+	//查询用户列表
+	@handler queryUserList
+	post /queryUserList (QueryUserListReq) returns (QueryUserListResp)
+
+	//查询用户菜单
+	@handler queryUserMenuList
+	get /queryUserMenuList returns (QueryUserMenuListResp)
+
+	//查询用户角色
+	@handler queryUserRoleList
+	post /queryUserRoleList (QueryUserRoleListReq) returns (QueryUserRoleListResp)
+
+	//更新用户角色
+	@handler updateUserRoleList
+	post /updateUserRoleList (UpdateUserRoleListReq) returns (UpdateUserRoleListResp)
+}
+
+@server (
+	group:  system/user
+	prefix: /api/system
+)
+service admin {
+	//用户登陆
+	@handler userLogin
+	post /user/login (UserLoginReq) returns (UserLoginResp)
+}
+

@@ -1,0 +1,79 @@
+
+###登录 login
+POST {{host}}/api/system/user/login
+Content-Type: application/json
+
+{
+  "account": "18613030352",
+  "password": "123456"
+}
+> {% client.global.set("token", response.body.data.token); %}
+
+###查询用户菜单 queryUserMenu
+GET {{host}}/api/system/user/queryUserMenuList
+Authorization: Bearer {{token}}
+
+###查询用户角色 queryUserRole
+POST {{host}}/api/system/user/queryUserRoleList
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": 1
+}
+
+###更新用户角色 updateUserRole
+POST {{host}}/api/system/user/updateUserRoleList
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": 1,
+  "roleIds": [1,2,3]
+
+}
+
+###用户列表 userList
+POST {{host}}/api/system/user/queryUserList
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "pageNo": 1,
+  "pageSize": 10,
+  "mobile": "18613030352",
+  "statusId": 1
+}
+###新增用户 userSave
+POST {{host}}/api/system/user/addUser
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "mobile": "18613030351",
+  "userName": "test",
+  "remark": "test"
+}
+###删除用户 user_delete
+POST {{host}}/api/system/user/deleteUser
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "ids": [13]
+}
+###更新用户 userUpdate
+POST {{host}}/api/system/user/updateUser
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 17,
+  "mobile": "18613030351",
+  "userName": "test123",
+  "remark": "test123",
+  "sort": 1,
+  "statusId": 1
+}
+
+

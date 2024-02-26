@@ -1,0 +1,68 @@
+###登录 login
+POST {{host}}/api/system/user/login
+Content-Type: application/json
+
+{
+  "mobile": "18613030352",
+  "password": "123456"
+}
+> {% client.global.set("token", response.body.data.token); %}
+
+###查询角色菜单 queryRoleMenu
+POST {{host}}/api/system/role/queryRoleMenuList
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "roleId": 3
+}
+###更新角色菜单 updateRoleMenu
+POST {{host}}/api/system/role/updateRoleMenuList
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "roleId": 1,
+  "menuIds": [1,2,3]
+}
+###角色列表 role_list
+POST {{host}}/api/system/role/queryRoleList
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "pageNo": 1,
+  "pageSize": 2,
+  "roleName": "演示角色"
+}
+###新增角色 roleSave
+POST {{host}}/api/system/role/addRole
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "remark": "test",
+  "roleName": "test",
+  "sort": 1,
+  "statusId": 1
+}
+###删除角色 roleDelete
+POST {{host}}/api/system/role/deleteRole
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "ids": [100]
+}
+###更新角色 role_update
+POST {{host}}/api/system/role/updateRole
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 7,
+  "remark": "test123",
+  "roleName": "test123",
+  "sort": 1,
+  "statusId": 1
+}

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zero-admin
+  labels:
+    app: zero-admin
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: zero-admin
+  template:
+    metadata:
+      labels:
+        app: zero-admin
+    spec:
+      containers:
+        - name: zero-admin
+          image: zero-admin:0.0.1
+          ports:
+            - containerPort: 7777
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zero-admin-svc
+  labels:
+    app: zero-admin-svc
+spec:
+  ports:
+    - port: 7777
+      name: zero-admin
+      targetPort: 7777
+  selector:
+    app: zero-admin
+  type: NodePort

@@ -1,0 +1,60 @@
+syntax = "v1"
+
+info (
+	title:   "操作记录"
+	desc:    "简单实现rbac权限管理系统"
+	author:  "liufeihua"
+	email:   "1002219331@qq.com"
+	version: "v1.0"
+)
+
+type DeleteOperateLogReq {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteOperateLogResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type QueryOperateLogListReq {
+	UserName  string `json:"userName,optional"` // 用户名
+	Operation string `json:"operation,optional"` // 用户操作
+	Method    string `json:"method,optional"` // 请求方法
+	Ip        string `json:"ip,optional"` // IP地址
+}
+
+type QueryOperateLogListResp {
+	Code int64                `json:"code"`
+	Msg  string               `json:"msg"`
+	Data []OperateLogListData `json:"data"`
+}
+
+type OperateLogListData {
+	Id             int64  `json:"id"` // 编号
+	UserName       string `json:"userName"` // 用户名
+	Operation      string `json:"operation"` // 用户操作
+	Method         string `json:"method"` // 请求方法
+	RequestParams  string `json:"requestParams"` // 请求参数
+	ResponseParams string `json:"responseParams"` // 响应参数
+	Time           int64  `json:"time"` // 执行时长(毫秒)
+	Ip             string `json:"ip"` // IP地址
+	OperationTime  string `json:"operationTime"` // 操作时间
+}
+
+@server (
+	jwt:        Auth
+	middleware: CheckUrl
+	group:      system/log
+	prefix:     /api/system/operateLog
+)
+service admin {
+	// 删除操作记录
+	@handler deleteOperateLog
+	post /deleteOperateLog (DeleteOperateLogReq) returns (DeleteOperateLogResp)
+
+	// 查询操作记录列表
+	@handler queryOperateLogList
+	post /queryOperateLogList (QueryOperateLogListReq) returns (QueryOperateLogListResp)
+}
+

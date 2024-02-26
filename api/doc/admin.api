@@ -1,0 +1,14 @@
+import "system/user.api"
+import "system/role.api"
+import "system/menu.api"
+import "system/loginlog.api"
+import "system/operatelog.api"
+
+info (
+	title:   "zero-admin-template"
+	desc:    "简单实现rbac权限管理系统"
+	author:  "liufeihua"
+	email:   "1002219331@qq.com"
+	version: "v1.0"
+)
+

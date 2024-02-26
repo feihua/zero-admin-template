@@ -1,0 +1,133 @@
+syntax = "v1"
+
+info (
+	title:   "角色信息"
+	desc:    "简单实现rbac权限管理系统"
+	author:  "liufeihua"
+	email:   "1002219331@qq.com"
+	version: "v1.0"
+)
+
+type AddRoleReq {
+	RoleName string `json:"roleName"` // 名称
+	StatusId int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort     int64  `json:"sort"` // 排序
+	Remark   string `json:"remark"` // 备注
+}
+
+type AddRoleResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type DeleteRoleReq {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteRoleResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type UpdateRoleReq {
+	Id       int64  `json:"id"` // 主键
+	RoleName string `json:"roleName"` // 名称
+	StatusId int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort     int64  `json:"sort"` // 排序
+	Remark   string `json:"remark"` // 备注
+}
+
+type UpdateRoleResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type QueryRoleListReq {
+	Current  int64  `json:"current,default=1"`
+	PageSize int64  `json:"pageSize,default=20"`
+	RoleName string `json:"roleName,optional"`
+	StatusId int64 `json:"statusId,optional"`
+}
+
+type QueryRoleListResp {
+	Code int64          `json:"code"`
+	Msg  string         `json:"msg"`
+	Data []RoleListData `json:"data"`
+	Success  bool       `json:"success"`
+	Total    int64      `json:"total"`
+}
+
+type RoleListData {
+	Id         int64  `json:"id"` // 主键
+	RoleName   string `json:"roleName"` // 名称
+	StatusId   int64  `json:"statusId"` // 状态(1:正常，0:禁用)
+	Sort       int64  `json:"sort"` // 排序
+	Remark     string `json:"remark"` // 备注
+	CreateTime string `json:"createTime"` // 创建时间
+	UpdateTime string `json:"updateTime"` // 修改时间
+}
+
+type QueryRoleMenuListReq {
+	RoleId int64 `json:"roleId"`
+}
+
+type QueryRoleMenuListResp {
+	Code int64                 `json:"code"`
+	Msg  string                `json:"msg"`
+	Data QueryRoleMenuListData `json:"data"`
+}
+
+type RoleMenuList {
+	Id       int64  `json:"id"`
+	ParentID int64  `json:"parentId"`
+	Title    string `json:"title"`
+	Key      string `json:"key"`
+}
+
+type QueryRoleMenuListData {
+	RoleMenus    []int64        `json:"roleMenus"`
+	MenuRoleList []RoleMenuList `json:"menuRoleList"`
+}
+
+type UpdateRoleMenuListReq {
+	MenuIds []int64 `json:"menuIds"`
+	RoleId  int64   `json:"roleId"`
+}
+
+type UpdateRoleMenuListResp {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+@server (
+	jwt:        Auth
+	middleware: CheckUrl
+	group:      system/role
+	prefix:     /api/system/role
+)
+service admin {
+	//添加角色
+	@handler addRole
+	post /addRole (AddRoleReq) returns (AddRoleResp)
+
+	//删除角色
+	@handler deleteRole
+	post /deleteRole (DeleteRoleReq) returns (DeleteRoleResp)
+
+	//更新角色
+	@handler updateRole
+	post /updateRole (UpdateRoleReq) returns (UpdateRoleResp)
+
+	//查询角色列表
+	@handler queryRoleList
+	post /queryRoleList (QueryRoleListReq) returns (QueryRoleListResp)
+
+	//查询角色菜单
+	@handler queryRoleMenuList
+	post /queryRoleMenuList (QueryRoleMenuListReq) returns (QueryRoleMenuListResp)
+
+	//更新角色菜单
+	@handler updateRoleMenuList
+	post /updateRoleMenuList (UpdateRoleMenuListReq) returns (UpdateRoleMenuListResp)
+}
+

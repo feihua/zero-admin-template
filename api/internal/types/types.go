@@ -160,7 +160,7 @@ type QueryRoleListReq struct {
 	Current  int64  `json:"current,default=1"`
 	PageSize int64  `json:"pageSize,default=20"`
 	RoleName string `json:"roleName,optional"`
-	StatusId int64  `json:"statusId,optional"`
+	StatusId int64  `json:"statusId,default=2"`
 }
 
 type QueryRoleListResp struct {
@@ -189,9 +189,9 @@ type QueryRoleMenuListResp struct {
 type QueryUserListReq struct {
 	Current  int64  `json:"current,default=1"`
 	PageSize int64  `json:"pageSize,default=20"`
-	Mobile   string `json:"mobile,optional"`   // 手机
-	UserName string `json:"userName,optional"` // 姓名
-	StatusId int64  `json:"statusId,optional"` // 状态(1:正常，0:禁用)
+	Mobile   string `json:"mobile,optional"`    // 手机
+	UserName string `json:"userName,optional"`  // 姓名
+	StatusId int64  `json:"statusId,default=2"` // 状态(1:正常，0:禁用)
 }
 
 type QueryUserListResp struct {
@@ -316,7 +316,6 @@ type UserListData struct {
 	Id         int64  `json:"id"`         // 主键
 	Mobile     string `json:"mobile"`     // 手机
 	UserName   string `json:"userName"`   // 姓名
-	Password   string `json:"password"`   // 密码
 	StatusId   int64  `json:"statusId"`   // 状态(1:正常，0:禁用)
 	Sort       int64  `json:"sort"`       // 排序
 	Remark     string `json:"remark"`     // 备注

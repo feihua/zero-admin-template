@@ -46,7 +46,7 @@ type QueryRoleListReq {
 	Current  int64  `json:"current,default=1"`
 	PageSize int64  `json:"pageSize,default=20"`
 	RoleName string `json:"roleName,optional"`
-	StatusId int64 `json:"statusId,optional"`
+	StatusId int64 `json:"statusId,default=2"`
 }
 
 type QueryRoleListResp {

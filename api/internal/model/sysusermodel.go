@@ -37,6 +37,9 @@ func (m *defaultSysUserModel) FindAll(ctx context.Context, Current int64, PageSi
 	if len(mobile) > 0 {
 		where = where + fmt.Sprintf(" AND user_name like '%%%s%%'", mobile)
 	}
+	if len(mobile) > 0 {
+		where = where + fmt.Sprintf(" OR mobile like '%%%s%%'", mobile)
+	}
 	if statusId != 2 {
 		where = where + fmt.Sprintf(" AND status_id = %d", statusId)
 	}

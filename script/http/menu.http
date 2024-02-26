@@ -20,7 +20,7 @@ Authorization: Bearer {{token}}
 
 {
   "apiUrl": "/auth/ping",
-  "icon": "FrownOutlined",
+  "menuIcon": "FrownOutlined",
   "label": "test4",
   "menuName": "test4",
   "menuType": 1,
@@ -37,7 +37,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "ids": [101,102]
+  "id":74
 }
 ###更新菜单 menuUpdate
 POST {{host}}/api/system/menu/updateMenu
@@ -46,8 +46,8 @@ Authorization: Bearer {{token}}
 
 {
   "apiUrl": "/auth/ping123",
-  "icon": "FrownOutlined",
-  "id": 111,
+  "menuIcon": "FrownOutlined",
+  "id": 74,
   "label": "test4",
   "menuName": "test45",
   "menuType": 1,

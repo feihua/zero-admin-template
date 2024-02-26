@@ -3,15 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/feihua/zero-admin-template/api/internal/common/errorx"
 	"github.com/feihua/zero-admin-template/api/internal/config"
 	"github.com/feihua/zero-admin-template/api/internal/handler"
 	"github.com/feihua/zero-admin-template/api/internal/svc"
-	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/rest/httpx"
-	"net/http"
-
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
 )
 
@@ -30,15 +26,15 @@ func main() {
 	handler.RegisterHandlers(server, ctx)
 
 	// 自定义错误
-	httpx.SetErrorHandler(func(err error) (int, interface{}) {
-		switch e := err.(type) {
-		case *errorx.CodeError:
-			return http.StatusOK, e.Data()
-		default:
-			fmt.Println(err.Error())
-			return http.StatusInternalServerError, nil
-		}
-	})
+	//httpx.SetErrorHandler(func(err error) (int, interface{}) {
+	//	switch e := err.(type) {
+	//	case *errorx.CodeError:
+	//		return http.StatusOK, e.Data()
+	//	default:
+	//		fmt.Println(err.Error())
+	//		return http.StatusInternalServerError, nil
+	//	}
+	//})
 
 	server.PrintRoutes() //print registered routes in rest servers
 	logx.DisableStat()

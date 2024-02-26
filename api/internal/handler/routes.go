@@ -69,7 +69,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: systemmenu.DeleteMenuHandler(serverCtx),
 				},
 				{
-					Method:  http.MethodPost,
+					Method:  http.MethodGet,
 					Path:    "/queryMenuList",
 					Handler: systemmenu.QueryMenuListHandler(serverCtx),
 				},

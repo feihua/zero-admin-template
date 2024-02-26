@@ -98,6 +98,6 @@ service admin {
 
 	// 查询菜单列表
 	@handler queryMenuList
-	post /queryMenuList (QueryMenuListReq) returns (QueryMenuListResp)
+	get /queryMenuList (QueryMenuListReq) returns (QueryMenuListResp)
 }
 

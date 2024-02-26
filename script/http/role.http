@@ -32,8 +32,8 @@ Authorization: Bearer {{token}}
 
 {
   "pageNo": 1,
-  "pageSize": 2,
-  "roleName": "演示角色"
+  "pageSize": 10,
+  "roleName": ""
 }
 ###新增角色 roleSave
 POST {{host}}/api/system/role/addRole
@@ -52,7 +52,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "ids": [100]
+  "ids": [4]
 }
 ###更新角色 role_update
 POST {{host}}/api/system/role/updateRole
@@ -60,8 +60,8 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "id": 7,
-  "remark": "test123",
+  "id": 4,
+  "remark": "66",
   "roleName": "test123",
   "sort": 1,
   "statusId": 1

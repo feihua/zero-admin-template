@@ -49,7 +49,7 @@ type QueryUserListReq {
 	PageSize int64  `json:"pageSize,default=20"`
 	Mobile   string `json:"mobile,optional"` // 手机
 	UserName string `json:"userName,optional"` // 姓名
-	StatusId int64  `json:"statusId,optional"` // 状态(1:正常，0:禁用)
+	StatusId int64  `json:"statusId,default=2"` // 状态(1:正常，0:禁用)
 }
 
 type QueryUserListResp {

@@ -59,6 +59,6 @@ func (l *UpdateMenuLogic) UpdateMenu(req *types.UpdateMenuReq) (resp *types.Upda
 	}
 
 	resp.Code = 0
-	resp.Msg = "添加菜单成功"
+	resp.Msg = "更新菜单成功"
 	return
 }

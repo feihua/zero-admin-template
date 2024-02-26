@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="start" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="zero-admin-template" />
+    <working_directory value="$PROJECT_DIR$" />
+    <kind value="PACKAGE" />
+    <package value="github.com/feihua/zero-admin-template/api" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/api/admin.go" />
+    <method v="2" />
+  </configuration>
+</component>

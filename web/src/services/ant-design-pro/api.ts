@@ -2,11 +2,11 @@
 /* eslint-disable */
 import { request } from 'umi';
 
-/** 获取当前的用户 GET /api/sys/user/currentUser */
+/** 获取当前的用户 GET /api/system/user/queryUserMenuList */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/system/menu/userMenuList', {
+  }>('/api/system/user/queryUserMenuList', {
     method: 'GET',
     ...(options || {}),
   });

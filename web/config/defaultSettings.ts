@@ -15,7 +15,7 @@ const Settings: LayoutSettings & {
   menu: {
     locale: false,  //关闭国际化
   },
-  title: 'Hello Pro',
+  title: 'Hello',
   pwa: false,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
   iconfontUrl: '',

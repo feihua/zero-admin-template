@@ -103,7 +103,7 @@ const UpdateUserRoleForm: React.FC<UpdateFormProps> = (props) => {
       forceRender
       destroyOnClose
       title="设置角色"
-      visible={updateRoleModalVisible}
+      open={updateRoleModalVisible}
       width={1200}
       {...modalFooter}
     >

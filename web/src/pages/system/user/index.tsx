@@ -1,4 +1,4 @@
-import {PlusOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
+import {PlusOutlined, ExclamationCircleOutlined, DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {Button, Divider, message, Drawer, Modal} from 'antd';
 import React, {useState, useRef} from 'react';
 import {PageContainer, FooterToolbar} from '@ant-design/pro-layout';
@@ -163,7 +163,7 @@ const TableList: React.FC<{}> = () => {
     },
     {
       title: '昵称',
-      dataIndex: 'realName',
+      dataIndex: 'userName',
       hideInSearch: true,
     },
     {
@@ -205,8 +205,8 @@ const TableList: React.FC<{}> = () => {
         <>
           <Button
             type="primary"
-            size="small"
-            disabled={!hasPm("/api/system/user/view")}
+            icon={<EditOutlined/>}
+            disabled={!hasPm("/api/system/user/updateUser")}
             onClick={() => {
               handleUpdateModalVisible(true);
               setStepFormValues(record);
@@ -217,8 +217,8 @@ const TableList: React.FC<{}> = () => {
           <Divider type="vertical"/>
           <Button
             type="primary"
-            size="small"
-            disabled={!hasPm("/api/system/role/userRoleSave")}
+            icon={<EditOutlined/>}
+            disabled={!hasPm("/api/system/user/updateUserRoleList")}
             onClick={() => {
               handleRoleModalVisible(true);
               setStepFormValues(record);
@@ -226,24 +226,24 @@ const TableList: React.FC<{}> = () => {
           >
             设置角色
           </Button>
-          <Divider type="vertical"/>
-          <Button
-            type="primary"
-            size="small"
-            disabled={!hasPm("/api/system/user/password")}
-            onClick={() => {
-              handlePasswordModalVisible(true);
-              setStepFormValues(record);
-            }}
-          >
-            密码修改
-          </Button>
+          {/*<Divider type="vertical"/>*/}
+          {/*<Button*/}
+          {/*  type="primary"*/}
+          {/*  size="small"*/}
+          {/*  disabled={!hasPm("/api/system/user/password")}*/}
+          {/*  onClick={() => {*/}
+          {/*    handlePasswordModalVisible(true);*/}
+          {/*    setStepFormValues(record);*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  密码修改*/}
+          {/*</Button>*/}
           <Divider type="vertical"/>
           <Button
             type="primary"
             danger
-            size="small"
-            disabled={!hasPm("/api/system/user/delete")}
+            icon={<DeleteOutlined/>}
+            disabled={!hasPm("/api/system/user/deleteUser")}
             onClick={() => {
               showDeleteConfirm(record.id);
             }}
@@ -265,7 +265,7 @@ const TableList: React.FC<{}> = () => {
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button type="primary" disabled={!hasPm("/api/system/user/save")} onClick={() => handleModalVisible(true)}>
+          <Button type="primary" disabled={!hasPm("/api/system/user/addUser")} onClick={() => handleModalVisible(true)}>
             <PlusOutlined/> 新建用户
           </Button>,
         ]}

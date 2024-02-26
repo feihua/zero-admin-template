@@ -32,7 +32,7 @@ func NewQueryUserRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 func (l *QueryUserRoleListLogic) QueryUserRoleList(req *types.QueryUserRoleListReq) (resp *types.QueryUserRoleListResp, err error) {
 	resp = &types.QueryUserRoleListResp{}
 	//所有角色
-	allRoleList, _, _ := l.svcCtx.RoleModel.FindAll(l.ctx, 1, 1000, "", 0)
+	allRoleList, _ := l.svcCtx.RoleModel.QueryRoleList(l.ctx)
 
 	var roleList []types.UserRoleList
 	var allUserRoleIds []int64

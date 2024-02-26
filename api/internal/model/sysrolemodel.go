@@ -15,6 +15,7 @@ type (
 	SysRoleModel interface {
 		sysRoleModel
 		FindAll(ctx context.Context, Current int64, PageSize int64, roleName string, statusId int64) (*[]SysRole, int64, error)
+		QueryRoleList(ctx context.Context) (*[]SysRole, error)
 	}
 
 	customSysRoleModel struct {
@@ -56,4 +57,17 @@ func (m *defaultSysRoleModel) FindAll(ctx context.Context, Current int64, PageSi
 	}
 
 	return &resp, count, nil
+}
+
+func (m *defaultSysRoleModel) QueryRoleList(ctx context.Context) (*[]SysRole, error) {
+
+	query := fmt.Sprintf("select %s from %s ORDER BY create_time DESC", sysRoleRows, m.table)
+
+	var resp []SysRole
+	err := m.QueryRowsNoCacheCtx(ctx, &resp, query)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
 }

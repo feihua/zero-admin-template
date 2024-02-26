@@ -19,8 +19,8 @@
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
+    path: '/home',
+    name: 'home',
     icon: 'smile',
     component: './Welcome',
   },

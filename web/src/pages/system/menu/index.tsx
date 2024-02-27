@@ -1,16 +1,16 @@
-import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import {Button, Divider, message, Drawer, Modal, Input} from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
-import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
+import {DeleteOutlined, EditOutlined, ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
+import {Button, Divider, Drawer, Input, message, Modal} from 'antd';
+import React, {useRef, useState} from 'react';
+import {PageContainer} from '@ant-design/pro-layout';
+import ProTable, {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import UpdateMenuForm from './components/UpdateMenuForm';
-import { MenuListItem } from './data.d';
-import { queryMenuList, updateMenu, addMenu, removeMenu, removeMenuOne } from './service';
+import {MenuListItem} from './data.d';
+import {addMenu, queryMenuList, removeMenu, updateMenu} from './service';
 import {hasPm, tree} from '@/utils/utils';
 import CreateMenuForm from '@/pages/system/menu/components/CreateMenuForm';
 
-const { confirm } = Modal;
+const {confirm} = Modal;
 
 /**
  * 添加节点
@@ -21,7 +21,7 @@ const handleAdd = async (fields: MenuListItem) => {
   try {
     fields.menuType = Number(fields.menuType);
     fields.sort = Number(fields.sort);
-    await addMenu({ ...fields });
+    await addMenu({...fields});
     hide();
     message.success('添加成功');
     return true;
@@ -58,32 +58,11 @@ const handleUpdate = async (fields: Partial<MenuListItem>) => {
  *  删除节点(单个)
  * @param id
  */
-const handleRemoveOne = async (id: number) => {
+const handleRemove = async (id: number) => {
   const hide = message.loading('正在删除');
-  try {
-    await removeMenuOne({
-      id,
-    });
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
-
-/**
- *  删除节点
- * @param selectedRows
- */
-const handleRemove = async (selectedRows: MenuListItem[]) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
   try {
     await removeMenu({
-      ids: selectedRows.map((row) => row.id),
+      id,
     });
     hide();
     message.success('删除成功，即将刷新');
@@ -101,19 +80,19 @@ const TableList: React.FC<{}> = () => {
   const [stepFormValues, setStepFormValues] = useState<MenuListItem>();
   const actionRef = useRef<ActionType>();
   const [row, setRow] = useState<MenuListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<MenuListItem[]>([]);
 
   const showDeleteConfirm = (id: number) => {
     confirm({
       title: '是否删除记录?',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined/>,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
-        handleRemoveOne(id).then(() => {
+        handleRemove(id).then(() => {
           actionRef.current?.reloadAndRest?.();
         });
       },
-      onCancel() {},
+      onCancel() {
+      },
     });
   };
 
@@ -135,36 +114,47 @@ const TableList: React.FC<{}> = () => {
       title: '路径',
       dataIndex: 'menuUrl',
       hideInSearch: true,
+      hideInTable:true,
     },
     {
       title: '接口地址',
       dataIndex: 'apiUrl',
       hideInSearch: true,
+      hideInTable:true,
     },
     {
       title: '类型',
       dataIndex: 'menuType',
       hideInSearch: true,
+      valueEnum: {
+        1: {text: '目录', status: 'Success'},
+        2: {text: '菜单', status: 'Error'},
+        3: {text: '按钮', status: 'Success'},
+      },
     },
     {
       title: '排序',
       dataIndex: 'sort',
       hideInSearch: true,
+
     },
     {
       title: '图标',
-      dataIndex: 'icon',
+      dataIndex: 'menuIcon',
       hideInSearch: true,
+      hideInTable:true,
     },
     {
       title: '状态',
       dataIndex: 'statusId',
       hideInSearch: true,
+      hideInTable:true,
     },
     {
       title: '备注',
       dataIndex: 'remark',
       hideInSearch: true,
+      hideInTable:true,
     },
     {
       title: '创建时间',
@@ -172,13 +162,14 @@ const TableList: React.FC<{}> = () => {
       sorter: true,
       valueType: 'dateTime',
       hideInSearch: true,
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+      hideInTable:true,
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
         const status = form.getFieldValue('status');
         if (`${status}` === '0') {
           return false;
         }
         if (`${status}` === '3') {
-          return <Input {...rest} placeholder="请输入异常原因！" />;
+          return <Input {...rest} placeholder="请输入异常原因！"/>;
         }
         return defaultRender(item);
       },
@@ -189,13 +180,14 @@ const TableList: React.FC<{}> = () => {
       sorter: true,
       valueType: 'dateTime',
       hideInSearch: true,
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+      hideInTable: true,
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
         const status = form.getFieldValue('status');
         if (`${status}` === '0') {
           return false;
         }
         if (`${status}` === '3') {
-          return <Input {...rest} placeholder="请输入异常原因！" />;
+          return <Input {...rest} placeholder="请输入异常原因！"/>;
         }
         return defaultRender(item);
       },
@@ -208,8 +200,8 @@ const TableList: React.FC<{}> = () => {
         <>
           <Button
             type="primary"
-            size="small"
-            disabled={!hasPm("/api/system/menu/view")}
+            icon={<EditOutlined/>}
+            disabled={!hasPm("/api/system/menu/updateMenu")}
             onClick={() => {
               handleUpdateModalVisible(true);
               setStepFormValues(record);
@@ -217,24 +209,12 @@ const TableList: React.FC<{}> = () => {
           >
             编辑
           </Button>
-          <Divider type="vertical" />
-          <Button
-            type="primary"
-            size="small"
-            disabled={!hasPm("/api/system/menu/save")}
-            onClick={() => {
-              handleModalVisible(true);
-              setStepFormValues(record);
-            }}
-          >
-            添加子菜单
-          </Button>
-          <Divider type="vertical" />
+          <Divider type="vertical"/>
           <Button
             type="primary"
             danger
-            size="small"
-            disabled={!hasPm("/api/system/menu/delete")}
+            icon={<DeleteOutlined/>}
+            disabled={!hasPm("/api/system/menu/deleteMenu")}
             onClick={() => {
               showDeleteConfirm(record.id);
             }}
@@ -254,38 +234,16 @@ const TableList: React.FC<{}> = () => {
         rowKey="id"
         search={false}
         toolBarRender={() => [
-          <Button type="primary" disabled={!hasPm("/api/system/menu/save")} onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建菜单
+          <Button type="primary" disabled={!hasPm("/api/system/menu/addMenu")} onClick={() => handleModalVisible(true)}>
+            <PlusOutlined/> 新建菜单
           </Button>,
         ]}
         // @ts-ignore
-        request={(params, sorter, filter) => queryMenuList({ ...params, sorter, filter })}
+        request={(params, sorter, filter) => queryMenuList({...params, sorter, filter})}
         columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => setSelectedRows(selectedRows),
-        }}
         postData={(data) => tree(data, 0, 'parentId')}
         pagination={false}
       />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              已选择 <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a> 项&nbsp;&nbsp;
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            批量删除
-          </Button>
-        </FooterToolbar>
-      )}
 
       <CreateMenuForm
         key={'CreateMenuForm'}
@@ -304,7 +262,6 @@ const TableList: React.FC<{}> = () => {
           setStepFormValues(undefined);
         }}
         createModalVisible={createModalVisible}
-        parentId={stepFormValues?.id || 0}
       />
 
       <UpdateMenuForm

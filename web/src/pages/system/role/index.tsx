@@ -1,4 +1,4 @@
-import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import {PlusOutlined, ExclamationCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import { Button, Divider, message, Input, Drawer, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -13,7 +13,6 @@ import {
   updateRole,
   addRole,
   removeRole,
-  removeRoleOne,
   updateRoleMenu,
 } from './service';
 import {hasPm} from "@/utils/utils";
@@ -58,26 +57,6 @@ const handleUpdate = async (fields: Partial<RoleListItem>) => {
 };
 
 /**
- *  删除节点(单个)
- * @param id
- */
-const handleRemoveOne = async (id: number) => {
-  const hide = message.loading('正在删除');
-  try {
-    await removeRoleOne({
-      id,
-    });
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
-
-/**
  *  删除节点
  * @param selectedRows
  */
@@ -108,13 +87,13 @@ const TableList: React.FC<{}> = () => {
   const [row, setRow] = useState<RoleListItem>();
   const [selectedRowsState, setSelectedRows] = useState<RoleListItem[]>([]);
 
-  const showDeleteConfirm = (id: number) => {
+  const showDeleteConfirm = (item: RoleListItem) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
-        handleRemoveOne(id).then(() => {
+        handleRemove([item]).then(() => {
           actionRef.current?.reloadAndRest?.();
         });
       },
@@ -204,8 +183,8 @@ const TableList: React.FC<{}> = () => {
         <>
           <Button
             type="primary"
-            size="small"
-            disabled={!hasPm("/api/system/role/view")}
+            icon={<EditOutlined/>}
+            disabled={!hasPm("/api/system/role/updateRole")}
             onClick={() => {
               handleUpdateModalVisible(true);
               setStepFormValues(record);
@@ -216,8 +195,8 @@ const TableList: React.FC<{}> = () => {
           <Divider type="vertical" />
           <Button
             type="primary"
-            size="small"
-            disabled={!hasPm("/api/system/menu/roleMenuSave")}
+            icon={<EditOutlined/>}
+            disabled={!hasPm("/api/system/role/updateRoleMenuList")}
             onClick={() => {
               handleUpdateMenuModalVisible(true);
               setMenuStepFormValues(record);
@@ -229,10 +208,10 @@ const TableList: React.FC<{}> = () => {
           <Button
             type="primary"
             danger
-            size="small"
-            disabled={!hasPm("/api/system/role/delete")}
+            icon={<DeleteOutlined/>}
+            disabled={!hasPm("/api/system/role/deleteRole")}
             onClick={() => {
-              showDeleteConfirm(record.id);
+              showDeleteConfirm(record);
             }}
           >
             删除
@@ -252,7 +231,7 @@ const TableList: React.FC<{}> = () => {
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button key={'new'} type="primary" disabled={!hasPm("/api/system/role/save")} onClick={() => handleModalVisible(true)}>
+          <Button key={'new'} type="primary" disabled={!hasPm("/api/system/role/addRole")} onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建角色
           </Button>,
         ]}

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import { Form, Input, Modal, Select } from 'antd';
-import { RoleListItem } from '../data.d';
+import {Form, Input, InputNumber, Modal, Radio} from 'antd';
+import {RoleListItem} from '../data.d';
 
 export interface UpdateFormProps {
   onCancel: () => void;
@@ -8,16 +8,16 @@ export interface UpdateFormProps {
   updateModalVisible: boolean;
   currentData: Partial<RoleListItem>;
 }
+
 const FormItem = Form.Item;
 
 const formLayout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 13 },
+  labelCol: {span: 7},
+  wrapperCol: {span: 13},
 };
 
 const UpdateRoleForm: React.FC<UpdateFormProps> = (props) => {
   const [form] = Form.useForm();
-  const { Option } = Select;
 
   const {
     onSubmit,
@@ -60,28 +60,32 @@ const UpdateRoleForm: React.FC<UpdateFormProps> = (props) => {
           label="主键"
           hidden
         >
-          <Input id="update-id" placeholder="请输入主键" />
+          <Input id="update-id" placeholder="请输入主键"/>
         </FormItem>
         <FormItem
           name="roleName"
-          label="角色名称"
+          label="名称"
+          rules={[{required: true, message: '请输入排序'}]}
         >
           <Input id="update-roleName" placeholder={'请输入角色名称'}/>
         </FormItem>
         <FormItem
           name="sort"
           label="排序"
+          initialValue={1}
+          rules={[{required: true, message: '请输入排序'}]}
         >
-          <Input id="update-sort" placeholder={'请输入角色名称'}/>
+          <InputNumber  id="create-sort" style={{width: 255}}/>
         </FormItem>
         <FormItem
           name="statusId"
           label="状态"
+          rules={[{required: true, message: '请选择状态'}]}
         >
-          <Select id="statusId" placeholder={'请选择状态'}>
-            <Option value={0}>禁用</Option>
-            <Option value={1}>启用</Option>
-          </Select>
+          <Radio.Group id="statusId">
+            <Radio value={0}>禁用</Radio>
+            <Radio value={1}>启用</Radio>
+          </Radio.Group>
         </FormItem>
         <FormItem
           name="remark"
@@ -94,7 +98,7 @@ const UpdateRoleForm: React.FC<UpdateFormProps> = (props) => {
   };
 
 
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const modalFooter = {okText: '保存', onOk: handleSubmit, onCancel};
 
   return (
     <Modal

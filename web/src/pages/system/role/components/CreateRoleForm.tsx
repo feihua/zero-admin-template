@@ -1,17 +1,18 @@
 import React, {useEffect} from 'react';
-import {Form, Input, Modal} from 'antd';
-import { RoleListItem } from '../data.d';
+import {Form, Input, InputNumber, Modal, Radio} from 'antd';
+import {RoleListItem} from '../data.d';
 
 export interface CreateFormProps {
   onCancel: () => void;
   onSubmit: (values: RoleListItem) => void;
   createModalVisible: boolean;
 }
+
 const FormItem = Form.Item;
 
 const formLayout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 13 },
+  labelCol: {span: 7},
+  wrapperCol: {span: 13},
 };
 
 const CreateRoleForm: React.FC<CreateFormProps> = (props) => {
@@ -47,15 +48,29 @@ const CreateRoleForm: React.FC<CreateFormProps> = (props) => {
       <>
         <FormItem
           name="roleName"
-          label="角色名称"
+          label="名称"
+          rules={[{required: true, message: '请输入排序'}]}
         >
           <Input id="add-roleName" placeholder={'请输入角色名称'}/>
         </FormItem>
         <FormItem
           name="sort"
           label="排序"
+          initialValue={1}
+          rules={[{required: true, message: '请输入排序'}]}
         >
-          <Input id="add-sort" placeholder={'请输入角色名称'}/>
+          <InputNumber  id="create-sort" style={{width: 255}}/>
+        </FormItem>
+        <FormItem
+          name="statusId"
+          label="状态"
+          initialValue={1}
+          rules={[{required: true, message: '请选择状态'}]}
+        >
+          <Radio.Group id="statusId">
+            <Radio value={0}>禁用</Radio>
+            <Radio value={1}>启用</Radio>
+          </Radio.Group>
         </FormItem>
         <FormItem
           name="remark"
@@ -69,7 +84,7 @@ const CreateRoleForm: React.FC<CreateFormProps> = (props) => {
   };
 
 
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const modalFooter = {okText: '保存', onOk: handleSubmit, onCancel};
 
   return (
     <Modal

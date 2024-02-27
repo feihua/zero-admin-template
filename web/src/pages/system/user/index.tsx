@@ -83,26 +83,6 @@ const handleUpdatePassword = async (fields: Partial<UpdatePasswordParams>) => {
 };
 
 /**
- *  删除节点(单个)
- * @param id
- */
-const handleRemoveOne = async (id: number) => {
-  const hide = message.loading('正在删除');
-  try {
-    await removeUser({
-      ids: [id],
-    });
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
-
-/**
  *  删除节点
  * @param selectedRows
  */
@@ -133,13 +113,13 @@ const TableList: React.FC<{}> = () => {
   const [row, setRow] = useState<UserListItem>();
   const [selectedRowsState, setSelectedRows] = useState<UserListItem[]>([]);
 
-  const showDeleteConfirm = (id: number) => {
+  const showDeleteConfirm = (item: UserListItem) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined/>,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
-        handleRemoveOne(id).then(() => {
+        handleRemove([item]).then(() => {
           actionRef.current?.reloadAndRest?.();
         });
       },
@@ -245,7 +225,7 @@ const TableList: React.FC<{}> = () => {
             icon={<DeleteOutlined/>}
             disabled={!hasPm("/api/system/user/deleteUser")}
             onClick={() => {
-              showDeleteConfirm(record.id);
+              showDeleteConfirm(record);
             }}
           >
             删除

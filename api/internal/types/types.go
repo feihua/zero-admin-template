@@ -2,15 +2,15 @@
 package types
 
 type AddMenuReq struct {
-	MenuName string `json:"menuName"` // 菜单名称
-	MenuType int64  `json:"menuType"` // 菜单类型(1：目录   2：菜单   3：按钮)
-	StatusId int64  `json:"statusId"` // 状态(1:正常，0:禁用)
-	Sort     int64  `json:"sort"`     // 排序
-	ParentId int64  `json:"parentId"` // 父ID
-	MenuUrl  string `json:"menuUrl"`  // 路由路径
-	ApiUrl   string `json:"apiUrl"`   // 接口URL
-	MenuIcon string `json:"menuIcon"` // 菜单图标
-	Remark   string `json:"remark"`   // 备注
+	MenuName string `json:"menuName"`           // 菜单名称
+	MenuType int64  `json:"menuType"`           // 菜单类型(1：目录   2：菜单   3：按钮)
+	StatusId int64  `json:"statusId"`           // 状态(1:正常，0:禁用)
+	Sort     int64  `json:"sort"`               // 排序
+	ParentId int64  `json:"parentId,default=0"` // 父ID
+	MenuUrl  string `json:"menuUrl,optional"`   // 路由路径
+	ApiUrl   string `json:"apiUrl,optional"`    // 接口URL
+	MenuIcon string `json:"menuIcon,optional"`  // 菜单图标
+	Remark   string `json:"remark,optional"`    // 备注
 }
 
 type AddMenuResp struct {
@@ -248,16 +248,16 @@ type RoleMenuList struct {
 }
 
 type UpdateMenuReq struct {
-	Id       int64  `json:"id"`       // 主键
-	MenuName string `json:"menuName"` // 菜单名称
-	MenuType int64  `json:"menuType"` // 菜单类型(1：目录   2：菜单   3：按钮)
-	StatusId int64  `json:"statusId"` // 状态(1:正常，0:禁用)
-	Sort     int64  `json:"sort"`     // 排序
-	ParentId int64  `json:"parentId"` // 父ID
-	MenuUrl  string `json:"menuUrl"`  // 路由路径
-	ApiUrl   string `json:"apiUrl"`   // 接口URL
-	MenuIcon string `json:"menuIcon"` // 菜单图标
-	Remark   string `json:"remark"`   // 备注
+	Id       int64  `json:"id"`                 // 主键
+	MenuName string `json:"menuName"`           // 菜单名称
+	MenuType int64  `json:"menuType"`           // 菜单类型(1：目录   2：菜单   3：按钮)
+	StatusId int64  `json:"statusId"`           // 状态(1:正常，0:禁用)
+	Sort     int64  `json:"sort"`               // 排序
+	ParentId int64  `json:"parentId,default=0"` // 父ID
+	MenuUrl  string `json:"menuUrl,optional"`   // 路由路径
+	ApiUrl   string `json:"apiUrl,optional"`    // 接口URL
+	MenuIcon string `json:"menuIcon,optional"`  // 菜单图标
+	Remark   string `json:"remark,optional"`    // 备注
 }
 
 type UpdateMenuResp struct {

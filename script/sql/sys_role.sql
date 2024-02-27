@@ -1,4 +1,4 @@
-create table hertzdb.sys_role
+create table sys_role
 (
     id          bigint auto_increment comment '主键'
         primary key,

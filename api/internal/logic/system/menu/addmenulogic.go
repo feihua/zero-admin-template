@@ -40,7 +40,7 @@ func (l *AddMenuLogic) AddMenu(req *types.AddMenuReq) (resp *types.AddMenuResp, 
 		ParentId: req.ParentId,
 		MenuName: req.MenuName,
 		MenuUrl:  req.MenuUrl,
-		ApiUrl:   req.MenuUrl,
+		ApiUrl:   req.ApiUrl,
 		MenuIcon: sql.NullString{
 			String: req.MenuIcon,
 			Valid:  true,

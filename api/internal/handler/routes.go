@@ -4,7 +4,8 @@ package handler
 import (
 	"net/http"
 
-	systemlog "github.com/feihua/zero-admin-template/api/internal/handler/system/log"
+	loglogin "github.com/feihua/zero-admin-template/api/internal/handler/log/login"
+	logoperate "github.com/feihua/zero-admin-template/api/internal/handler/log/operate"
 	systemmenu "github.com/feihua/zero-admin-template/api/internal/handler/system/menu"
 	systemrole "github.com/feihua/zero-admin-template/api/internal/handler/system/role"
 	systemuser "github.com/feihua/zero-admin-template/api/internal/handler/system/user"
@@ -21,17 +22,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					Method:  http.MethodPost,
 					Path:    "/deleteLoginLog",
-					Handler: systemlog.DeleteLoginLogHandler(serverCtx),
+					Handler: loglogin.DeleteLoginLogHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPost,
 					Path:    "/queryLoginLogList",
-					Handler: systemlog.QueryLoginLogListHandler(serverCtx),
+					Handler: loglogin.QueryLoginLogListHandler(serverCtx),
 				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
-		rest.WithPrefix("/api/system/loginLog"),
+		rest.WithPrefix("/api/log/login"),
 	)
 
 	server.AddRoutes(
@@ -41,17 +42,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					Method:  http.MethodPost,
 					Path:    "/deleteOperateLog",
-					Handler: systemlog.DeleteOperateLogHandler(serverCtx),
+					Handler: logoperate.DeleteOperateLogHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPost,
 					Path:    "/queryOperateLogList",
-					Handler: systemlog.QueryOperateLogListHandler(serverCtx),
+					Handler: logoperate.QueryOperateLogListHandler(serverCtx),
 				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
-		rest.WithPrefix("/api/system/operateLog"),
+		rest.WithPrefix("/api/log/operate"),
 	)
 
 	server.AddRoutes(

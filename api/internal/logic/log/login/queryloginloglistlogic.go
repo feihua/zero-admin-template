@@ -1,4 +1,4 @@
-package log
+package login
 
 import (
 	"context"
@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type QueryOperateLogListLogic struct {
+type QueryLoginLogListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewQueryOperateLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *QueryOperateLogListLogic {
-	return &QueryOperateLogListLogic{
+func NewQueryLoginLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *QueryLoginLogListLogic {
+	return &QueryLoginLogListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *QueryOperateLogListLogic) QueryOperateLogList(req *types.QueryOperateLogListReq) (resp *types.QueryOperateLogListResp, err error) {
+func (l *QueryLoginLogListLogic) QueryLoginLogList(req *types.QueryLoginLogListReq) (resp *types.QueryLoginLogListResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

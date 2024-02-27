@@ -1,9 +1,9 @@
-package log
+package login
 
 import (
 	"net/http"
 
-	"github.com/feihua/zero-admin-template/api/internal/logic/system/log"
+	"github.com/feihua/zero-admin-template/api/internal/logic/log/login"
 	"github.com/feihua/zero-admin-template/api/internal/svc"
 	"github.com/feihua/zero-admin-template/api/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -17,7 +17,7 @@ func QueryLoginLogListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := log.NewQueryLoginLogListLogic(r.Context(), svcCtx)
+		l := login.NewQueryLoginLogListLogic(r.Context(), svcCtx)
 		resp, err := l.QueryLoginLogList(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

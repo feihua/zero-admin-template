@@ -45,8 +45,8 @@ type OperateLogListData {
 @server (
 	jwt:        Auth
 	middleware: CheckUrl
-	group:      system/log
-	prefix:     /api/system/operateLog
+	group:      log/operate
+	prefix:     /api/log/operate
 )
 service admin {
 	// 删除操作记录

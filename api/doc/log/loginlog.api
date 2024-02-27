@@ -38,8 +38,8 @@ type LoginLogListData {
 @server (
 	jwt:        Auth
 	middleware: CheckUrl
-	group:      system/log
-	prefix:     /api/system/loginLog
+	group:      log/login
+	prefix:     /api/log/login
 )
 service admin {
 	// 删除登陆记录

@@ -1,8 +1,8 @@
 import "system/user.api"
 import "system/role.api"
 import "system/menu.api"
-import "system/loginlog.api"
-import "system/operatelog.api"
+import "log/loginlog.api"
+import "log/operatelog.api"
 
 info (
 	title:   "zero-admin-template"

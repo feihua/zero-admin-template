@@ -1,4 +1,4 @@
-package log
+package operate
 
 import (
 	"context"
@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeleteOperateLogLogic struct {
+type QueryOperateLogListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewDeleteOperateLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteOperateLogLogic {
-	return &DeleteOperateLogLogic{
+func NewQueryOperateLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *QueryOperateLogListLogic {
+	return &QueryOperateLogListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DeleteOperateLogLogic) DeleteOperateLog(req *types.DeleteOperateLogReq) (resp *types.DeleteOperateLogResp, err error) {
+func (l *QueryOperateLogListLogic) QueryOperateLogList(req *types.QueryOperateLogListReq) (resp *types.QueryOperateLogListResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

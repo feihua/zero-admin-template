@@ -13,13 +13,15 @@ import (
 type ServiceContext struct {
 	Config config.Config
 
-	UserModel     model.SysUserModel
-	RoleModel     model.SysRoleModel
-	UserRoleModel model.SysUserRoleModel
-	MenuModel     model.SysMenuModel
-	RoleMenuModel model.SysRoleMenuModel
-	Redis         *redis.Redis
-	CheckUrl      rest.Middleware
+	UserModel       model.SysUserModel
+	RoleModel       model.SysRoleModel
+	UserRoleModel   model.SysUserRoleModel
+	MenuModel       model.SysMenuModel
+	RoleMenuModel   model.SysRoleMenuModel
+	LoginLogModel   model.SysLoginLogModel
+	OperateLogModel model.SysOperateLogModel
+	Redis           *redis.Redis
+	CheckUrl        rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -28,13 +30,15 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
 
-		UserModel:     model.NewSysUserModel(sqlConn, c.CacheRedis),
-		RoleModel:     model.NewSysRoleModel(sqlConn, c.CacheRedis),
-		UserRoleModel: model.NewSysUserRoleModel(sqlConn, c.CacheRedis),
-		MenuModel:     model.NewSysMenuModel(sqlConn, c.CacheRedis),
-		RoleMenuModel: model.NewSysRoleMenuModel(sqlConn, c.CacheRedis),
-		Redis:         newRedis,
-		CheckUrl:      middleware.NewCheckUrlMiddleware(newRedis).Handle,
+		UserModel:       model.NewSysUserModel(sqlConn, c.CacheRedis),
+		RoleModel:       model.NewSysRoleModel(sqlConn, c.CacheRedis),
+		UserRoleModel:   model.NewSysUserRoleModel(sqlConn, c.CacheRedis),
+		MenuModel:       model.NewSysMenuModel(sqlConn, c.CacheRedis),
+		RoleMenuModel:   model.NewSysRoleMenuModel(sqlConn, c.CacheRedis),
+		LoginLogModel:   model.NewSysLoginLogModel(sqlConn, c.CacheRedis),
+		OperateLogModel: model.NewSysOperateLogModel(sqlConn, c.CacheRedis),
+		Redis:           newRedis,
+		CheckUrl:        middleware.NewCheckUrlMiddleware(newRedis).Handle,
 	}
 }
 

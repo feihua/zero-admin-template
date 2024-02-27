@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"github.com/feihua/zero-admin-template/api/internal/common/errorx"
+	"github.com/feihua/zero-admin-template/api/internal/model"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"strings"
@@ -34,7 +35,7 @@ func NewUserLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLog
 }
 
 // UserLogin 用户登陆
-func (l *UserLoginLogic) UserLogin(req *types.UserLoginReq) (resp *types.UserLoginResp, err error) {
+func (l *UserLoginLogic) UserLogin(req *types.UserLoginReq, ip string) (resp *types.UserLoginResp, err error) {
 	resp = &types.UserLoginResp{}
 	if len(strings.TrimSpace(req.Mobile)) == 0 || len(strings.TrimSpace(req.Password)) == 0 {
 		return nil, errorx.NewDefaultError("参数错误")
@@ -61,6 +62,13 @@ func (l *UserLoginLogic) UserLogin(req *types.UserLoginReq) (resp *types.UserLog
 	accessSecret := l.svcCtx.Config.Auth.AccessSecret
 
 	jwtToken, _ := l.getJwtToken(accessSecret, now, accessExpire, userInfo.Id)
+
+	//保存登录日志
+	l.svcCtx.LoginLogModel.Insert(l.ctx, &model.SysLoginLog{
+		UserName: userInfo.UserName,
+		Status:   "1",
+		Ip:       ip,
+	})
 
 	return &types.UserLoginResp{
 		Code: 0,

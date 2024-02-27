@@ -18,6 +18,8 @@ type DeleteOperateLogResp {
 }
 
 type QueryOperateLogListReq {
+	Current  int64  `json:"current,default=1"`
+	PageSize int64  `json:"pageSize,default=20"`
 	UserName  string `json:"userName,optional"` // 用户名
 	Operation string `json:"operation,optional"` // 用户操作
 	Method    string `json:"method,optional"` // 请求方法
@@ -28,6 +30,8 @@ type QueryOperateLogListResp {
 	Code int64                `json:"code"`
 	Msg  string               `json:"msg"`
 	Data []OperateLogListData `json:"data"`
+	Success  bool                `json:"success"`
+	Total    int64               `json:"total"`
 }
 
 type OperateLogListData {

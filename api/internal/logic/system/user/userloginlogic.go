@@ -61,13 +61,14 @@ func (l *UserLoginLogic) UserLogin(req *types.UserLoginReq, ip string) (resp *ty
 	accessExpire := l.svcCtx.Config.Auth.AccessExpire
 	accessSecret := l.svcCtx.Config.Auth.AccessSecret
 
-	jwtToken, _ := l.getJwtToken(accessSecret, now, accessExpire, userInfo.Id)
+	jwtToken, _ := l.getJwtToken(accessSecret, userInfo.UserName, now, accessExpire, userInfo.Id)
 
 	//保存登录日志
-	l.svcCtx.LoginLogModel.Insert(l.ctx, &model.SysLoginLog{
-		UserName: userInfo.UserName,
-		Status:   "1",
-		Ip:       ip,
+	_, _ = l.svcCtx.LoginLogModel.Insert(l.ctx, &model.SysLoginLog{
+		UserName:  userInfo.UserName,
+		Status:    "1",
+		Ip:        ip,
+		LoginTime: time.Now(),
 	})
 
 	return &types.UserLoginResp{
@@ -81,11 +82,12 @@ func (l *UserLoginLogic) UserLogin(req *types.UserLoginReq, ip string) (resp *ty
 	}, nil
 }
 
-func (l *UserLoginLogic) getJwtToken(secretKey string, iat, seconds, userId int64) (string, error) {
+func (l *UserLoginLogic) getJwtToken(secretKey, userName string, iat, seconds, userId int64) (string, error) {
 	claims := make(jwt.MapClaims)
 	claims["exp"] = iat + seconds
 	claims["iat"] = iat
 	claims["userId"] = userId
+	claims["userName"] = userName
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = claims
 	return token.SignedString([]byte(secretKey))

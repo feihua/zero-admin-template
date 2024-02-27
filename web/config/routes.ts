@@ -50,7 +50,7 @@
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/home',
   },
   {
     path: '/system',
@@ -74,6 +74,25 @@
         icon: 'table',
         path: '/system/menu/list',
         component: './system/menu',
+      },
+    ],
+  },
+  {
+    path: '/log',
+    name: '日志相关',
+    icon: 'crown',
+    routes: [
+      {
+        name: '登录日志',
+        icon: 'table',
+        path: '/log/login/list',
+        component: './log/login',
+      },
+      {
+        name: '操作日志',
+        icon: 'table',
+        path: '/log/operate/list',
+        component: './log/operate',
       },
     ],
   },

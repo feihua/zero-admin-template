@@ -29,9 +29,9 @@ func UserLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := user.NewUserLoginLogic(r.Context(), svcCtx)
 		resp, err := l.UserLogin(&req, httpx.GetRemoteAddr(r))
 		if err != nil {
-			httpx.Error(w, err)
+			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJson(w, resp)
+			httpx.OkJsonCtx(r.Context(), w, resp)
 		}
 	}
 }

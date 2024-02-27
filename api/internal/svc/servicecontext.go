@@ -22,11 +22,13 @@ type ServiceContext struct {
 	OperateLogModel model.SysOperateLogModel
 	Redis           *redis.Redis
 	CheckUrl        rest.Middleware
+	AddLog          rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	sqlConn := sqlx.NewMysql(c.Mysql.Datasource)
 	newRedis := redis.New(c.Redis.Address, redisConfig(c))
+	operateLogModel := model.NewSysOperateLogModel(sqlConn, c.CacheRedis)
 	return &ServiceContext{
 		Config: c,
 
@@ -36,9 +38,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		MenuModel:       model.NewSysMenuModel(sqlConn, c.CacheRedis),
 		RoleMenuModel:   model.NewSysRoleMenuModel(sqlConn, c.CacheRedis),
 		LoginLogModel:   model.NewSysLoginLogModel(sqlConn, c.CacheRedis),
-		OperateLogModel: model.NewSysOperateLogModel(sqlConn, c.CacheRedis),
+		OperateLogModel: operateLogModel,
 		Redis:           newRedis,
 		CheckUrl:        middleware.NewCheckUrlMiddleware(newRedis).Handle,
+		AddLog:          middleware.NewAddLogMiddleware(operateLogModel).Handle,
 	}
 }
 

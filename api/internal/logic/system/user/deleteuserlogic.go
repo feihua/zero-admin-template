@@ -42,6 +42,6 @@ func (l *DeleteUserLogic) DeleteUser(req *types.DeleteUserReq) (resp *types.Dele
 	}
 
 	resp.Code = 0
-	resp.Msg = "添加用户成功"
+	resp.Msg = "删除用户成功"
 	return
 }

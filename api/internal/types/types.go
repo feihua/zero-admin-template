@@ -109,13 +109,18 @@ type OperateLogListData struct {
 }
 
 type QueryLoginLogListReq struct {
+	Current  int64  `json:"current,default=1"`
+	PageSize int64  `json:"pageSize,default=20"`
 	UserName string `json:"userName,optional"`
+	Ip       string `json:"ip,optional"` // IP地址
 }
 
 type QueryLoginLogListResp struct {
-	Code int64              `json:"code"`
-	Msg  string             `json:"msg"`
-	Data []LoginLogListData `json:"data"`
+	Code    int64              `json:"code"`
+	Msg     string             `json:"msg"`
+	Data    []LoginLogListData `json:"data"`
+	Success bool               `json:"success"`
+	Total   int64              `json:"total"`
 }
 
 type QueryMenuListData struct {
@@ -144,6 +149,8 @@ type QueryMenuListResp struct {
 }
 
 type QueryOperateLogListReq struct {
+	Current   int64  `json:"current,default=1"`
+	PageSize  int64  `json:"pageSize,default=20"`
 	UserName  string `json:"userName,optional"`  // 用户名
 	Operation string `json:"operation,optional"` // 用户操作
 	Method    string `json:"method,optional"`    // 请求方法
@@ -151,9 +158,11 @@ type QueryOperateLogListReq struct {
 }
 
 type QueryOperateLogListResp struct {
-	Code int64                `json:"code"`
-	Msg  string               `json:"msg"`
-	Data []OperateLogListData `json:"data"`
+	Code    int64                `json:"code"`
+	Msg     string               `json:"msg"`
+	Data    []OperateLogListData `json:"data"`
+	Success bool                 `json:"success"`
+	Total   int64                `json:"total"`
 }
 
 type QueryRoleListReq struct {
@@ -245,6 +254,21 @@ type RoleMenuList struct {
 	ParentID int64  `json:"parentId"`
 	Title    string `json:"title"`
 	Key      string `json:"key"`
+}
+
+type StatisticsLoginLogData struct {
+	DayLoginCount   int32 `json:"dayLoginCount"`   //查询当天登录人数（根据IP）
+	WeekLoginCount  int32 `json:"weekLoginCount"`  //统计当前周登录人数（根据IP）
+	MonthLoginCount int32 `json:"monthLoginCount"` //统计当前月登录人数（根据IP）
+}
+
+type StatisticsLoginLogReq struct {
+}
+
+type StatisticsLoginLogResp struct {
+	Code    int64                  `json:"code"`
+	Message string                 `json:"message"`
+	Data    StatisticsLoginLogData `json:"data"`
 }
 
 type UpdateMenuReq struct {

@@ -29,6 +29,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/queryLoginLogList",
 					Handler: loglogin.QueryLoginLogListHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/statisticsLoginLog",
+					Handler: loglogin.StatisticsLoginLogHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

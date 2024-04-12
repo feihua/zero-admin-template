@@ -1,5 +1,3 @@
 
-goctl api go -api admin.api -dir .
-
-E:\\goworkspace\\bin\\goctl  model mysql datasource -url="root:r-wz9wop62956dh5k9ed@tcp(rm-wz9a2yv489d123yqkdo.mysql.rds.aliyuncs.com:3306)/zero-vue" -table="*"  -dir="./model" -c
-
+# 项目模板
+zero-admin-tmplate,提供基础的RBAC权限,可以作为项目模板使用
